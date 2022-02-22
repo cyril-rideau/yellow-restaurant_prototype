@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "food_categories",
+  "info": {
+    "singularName": "food-category",
+    "pluralName": "food-categories",
+    "displayName": "FoodCategory"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "Slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "dishes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::dish.dish",
+      "mappedBy": "food_category"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}
