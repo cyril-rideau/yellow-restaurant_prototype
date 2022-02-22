@@ -4,7 +4,8 @@
   "info": {
     "singularName": "food-category",
     "pluralName": "food-categories",
-    "displayName": "FoodCategory"
+    "displayName": "FoodCategory",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -26,6 +27,12 @@
     },
     "description": {
       "type": "text"
+    },
+    "restaurant": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::restaurant.restaurant",
+      "inversedBy": "food_categories"
     }
   }
 }

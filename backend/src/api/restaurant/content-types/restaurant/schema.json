@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "restaurants",
+  "info": {
+    "singularName": "restaurant",
+    "pluralName": "restaurants",
+    "displayName": "Restaurants",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "Slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "open": {
+      "type": "boolean"
+    },
+    "description": {
+      "type": "text"
+    },
+    "food_categories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::food-category.food-category",
+      "mappedBy": "restaurant"
+    },
+    "picture": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}
