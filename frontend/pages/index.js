@@ -3,14 +3,17 @@ import Articles from "../components/articles";
 import Layout from "../components/layout";
 import Seo from "../components/seo";
 import { fetchAPI } from "../lib/api";
+import Restaurants from "../components/restaurants";
+import NextImage from "../components/image";
 
-const Home = ({ articles, categories, homepage }) => {
+const Home = ({ restaurants, articles, categories, homepage }) => {
   return (
-      <Layout categories={categories}>
+      <Layout restaurants={restaurants}>
         <Seo seo={homepage.attributes.seo} />
         <div className="uk-section">
           <div className="uk-container uk-container-large">
             <h1>{homepage.attributes.hero.title}</h1>
+            <Restaurants restaurants={restaurants} />
             <Articles articles={articles} />
           </div>
         </div>
@@ -20,8 +23,9 @@ const Home = ({ articles, categories, homepage }) => {
 
 export async function getStaticProps() {
   // Run API calls in parallel
-  const [articlesRes, categoriesRes, homepageRes] = await Promise.all([
+  const [articlesRes, restaurantsRes, categoriesRes, homepageRes] = await Promise.all([
     fetchAPI("/articles", { populate: ["image", "category"] }),
+    fetchAPI("/restaurants", { populate: ["picture"] }),
     fetchAPI("/categories", { populate: "*" }),
     fetchAPI("/homepage", {
       populate: {
@@ -34,6 +38,7 @@ export async function getStaticProps() {
   return {
     props: {
       articles: articlesRes.data,
+      restaurants: restaurantsRes.data,
       categories: categoriesRes.data,
       homepage: homepageRes.data,
     },

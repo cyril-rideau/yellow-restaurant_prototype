@@ -7,7 +7,7 @@ import Layout from "../../components/layout";
 import { fetchAPI } from "../../lib/api";
 import { getStrapiMedia } from "../../lib/media";
 
-const Article = ({ article, categories }) => {
+const Article = ({ article, restaurants }) => {
     const imageUrl = getStrapiMedia(article.attributes.image);
 
     const seo = {
@@ -18,7 +18,7 @@ const Article = ({ article, categories }) => {
     };
 
     return (
-        <Layout categories={categories.data}>
+        <Layout restaurants={restaurants.data}>
             <Seo seo={seo} />
             <div
                 id="banner"
@@ -89,10 +89,10 @@ export async function getStaticProps({ params }) {
         },
         populate: ["image", "category", "author.picture"],
     });
-    const categoriesRes = await fetchAPI("/categories");
+    const categoriesRes = await fetchAPI("/restaurants");
 
     return {
-        props: { article: articlesRes.data[0], categories: categoriesRes },
+        props: { article: articlesRes.data[0], restaurants: categoriesRes },
         revalidate: 1,
     };
 }

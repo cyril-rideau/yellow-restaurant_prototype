@@ -4,14 +4,14 @@ import Articles from "../../components/articles";
 
 import { fetchAPI } from "../../lib/api";
 
-const Category = ({ category, categories }) => {
+const Category = ({ category, restaurants }) => {
     const seo = {
         metaTitle: category.attributes.name,
         metaDescription: `All ${category.attributes.name} articles`,
     };
 
     return (
-        <Layout categories={categories.data}>
+        <Layout restaurants={restaurants.data}>
             <Seo seo={seo} />
             <div className="uk-section">
                 <div className="uk-container uk-container-large">
