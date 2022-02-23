@@ -3,8 +3,11 @@ import Link from "next/link";
 import Image from "./image";
 import CartPic from "../public/cart.png";
 import NextImage from "next/image";
+import AppContext from "../context/AppContext";
 
 const Nav = ({ restaurants }) => {
+    const { user, setUser } = React.useContext(AppContext);
+
     return (
         <div>
             <nav className="uk-navbar-container" data-uk-navbar>
@@ -28,16 +31,19 @@ const Nav = ({ restaurants }) => {
                                 </li>
                             );
                         })}
-                        <li key="Login">
-                            <Link href="/login/">
-                                <a className="uk-link-reset">Login</a>
-                            </Link>
-                        </li>
-                        <li key="User">
-                            <Link href="/user/">
-                                <a className="uk-link-reset">Profile</a>
-                            </Link>
-                        </li>
+                        { user ? (
+                            <li key="User">
+                                <Link href="/user/">
+                                    <a className="uk-link-reset">Profile</a>
+                                </Link>
+                            </li>
+                        ) : (
+                            <li key="Login">
+                                <Link href="/login/">
+                                    <a className="uk-link-reset">Login</a>
+                                </Link>
+                            </li>
+                        )}
                         <li key="Cart">
                             <Link href="/Cart/">
                                 <a className="uk-link-reset"> <img src="cart.png" width="40" height="40"/> </a>
