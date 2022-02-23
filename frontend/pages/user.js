@@ -3,29 +3,37 @@ import Layout from "../components/layout";
 import Cookie from "js-cookie";
 import useSWR from "swr";
 import Router from "next/router";
-
-const fetcher = async url => {
-    const response = await fetch(url, { headers: {"Authorization": "Bearer " + Cookie.get("token")}});
-
-    const data = await response.json();
-
-    return data
-}
+import {useEffect, useState} from "react";
 
 const User = ({ restaurants }) => {
 
-    const user = useSWR("http://localhost:1337/api/users/me", fetcher);
+    const [data, setData] = useState(null)
+    const [isLoading, setLoading] = useState(false)
 
-    if (!user) {
-        Router.push("/");
-    }
+    useEffect(() => {
+        setLoading(true)
+        fetch('http://localhost:1337/api/users/me',
+            {
+                headers: {
+                    "Authorization": "Bearer " + Cookie.get("token"),
+                }
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                setData(data)
+                setLoading(false)
+            })
+    }, [])
+
+    if (isLoading) return <p>Loading...</p>
+    if (!data) return <p>No profile data</p>
 
     return (
         <Layout restaurants={restaurants.data}>
             <div
                 className="uk-height-small uk-flex uk-flex-center uk-flex-middle uk-background-cover uk-padding uk-margin"
             >
-                <h1>{user.data.username}</h1>
+                <h1>{data.username}</h1>
             </div>
             <div className="uk-section">
                 <div className="uk-container uk-container-small">
@@ -34,7 +42,7 @@ const User = ({ restaurants }) => {
                             User:
                         </label>
                         <div className="uk-text-center">
-                            {user.data.username}
+                            {data.username}
                         </div>
                     </div>
                     <div className="uk-margin">
@@ -42,7 +50,7 @@ const User = ({ restaurants }) => {
                             E-Mail:
                         </label>
                         <div className="uk-text-center">
-                            {user.data.email}
+                            {data.email}
                         </div>
                     </div>
                     <div className="uk-margin">
@@ -50,7 +58,7 @@ const User = ({ restaurants }) => {
                             Account Balance:
                         </label>
                         <div className="uk-text-center">
-                            {user.data.balance}
+                            {data.balance}
                         </div>
                     </div>
                 </div>
