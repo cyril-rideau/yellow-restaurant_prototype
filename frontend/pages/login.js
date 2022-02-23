@@ -4,8 +4,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import {
     Container,
-    Row,
-    Col,
     Button,
     Form,
     FormGroup,
@@ -14,8 +12,10 @@ import {
 } from "reactstrap";
 import { login } from "../lib/auth";
 import AppContext from "../context/AppContext";
+import Layout from "../components/layout";
+import {fetchAPI} from "../lib/api";
 
-function Login(props) {
+const Login = ({restaurants}) => {
     const [data, updateData] = useState({ identifier: "", password: "" });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -33,23 +33,10 @@ function Login(props) {
     }
 
     return (
+        <Layout restaurants={restaurants.data}>
         <Container>
             <div>
                 <section>
-                    {Object.entries(error).length !== 0 &&
-                        error.constructor === Object &&
-                        error.message.map((error) => {
-                            return (
-                                <div
-                                    key={error.messages[0].id}
-                                    style={{ marginBottom: 10 }}
-                                >
-                                    <small style={{ color: "red" }}>
-                                        {error.messages[0].message}
-                                    </small>
-                                </div>
-                            );
-                        })}
                     <Form className="uk-form-stacked uk-position-center">
                         <fieldset disabled={loading}>
                             <FormGroup className="uk-margin">
@@ -98,7 +85,17 @@ function Login(props) {
                 </section>
             </div>
         </Container>
+        </Layout>
     );
+}
+
+export async function getStaticProps({ params }) {
+    const restaurantsRes = await fetchAPI("/restaurants");
+
+    return {
+        props: { restaurants: restaurantsRes },
+        revalidate: 1,
+    };
 }
 
 export default Login;
