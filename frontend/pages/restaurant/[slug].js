@@ -9,8 +9,11 @@ import { getStrapiMedia } from "../../lib/media";
 import restaurants from "../../components/restaurants";
 import Dishes from "../../components/dishes";
 import Restaurants from "/components/restaurants";
+import MenuCategory from "../../components/menu";
 
-const Article = ({ foodcategories, dishes, restaurant, restaurants }) => {
+const Menu = ({ foodcategories, dishes, restaurant, restaurants }) => {
+    console.log("ARTICLE")
+    console.log(restaurants)
     const imageUrl = getStrapiMedia(restaurant.attributes.picture);
 
     const seo = {
@@ -19,10 +22,6 @@ const Article = ({ foodcategories, dishes, restaurant, restaurants }) => {
         shareImage: restaurant.attributes.picture,
         article: true,
     };
-
-    //UIkit
-    //UIkit.nav()
-    //UIkit.nav(element, options);
 
     return (
         <Layout restaurants={restaurants.data}>
@@ -37,13 +36,13 @@ const Article = ({ foodcategories, dishes, restaurant, restaurants }) => {
                 <h1>{restaurant.attributes.name}</h1>
             </div>
 
-            <div className="uk-section">
+            <div className="uk-section uk-width-1-1">
                 <div className="uk-container uk-container-large">
                     <ReactMarkdown children={restaurant.attributes.description} />
                     <hr className="uk-divider-small"/>
-                    <div /*className="uk-grid-small uk-flex-center" data-uk-grid="true"*/>
+                    <div>
                         <div>
-                            <Dishes dishes={dishes} restaurant={restaurant}/>
+                            <MenuCategory foodcategories={foodcategories} dishes={dishes} restaurant={restaurant}/>
                         </div>
                     </div>
                     <div className="uk-width-expand">
@@ -81,7 +80,7 @@ export async function getStaticProps({ params }) {
     });
     const dishesRes = await fetchAPI("/dishes", {
         filters: {},
-        populate: ["picture", , "food_category", "restaurants"],
+        populate: ["picture", "food_category", "restaurants"],
     });
     const restaurantsRes = await fetchAPI("/restaurants", {
         filters: {
@@ -90,17 +89,19 @@ export async function getStaticProps({ params }) {
         populate: ["picture", "food_categories"],
     });
 
-    /*console.log(foodcategoryRes)
+    console.log(foodcategoryRes)
+    console.log("Restaurant")
     console.log(restaurantsRes)
 
+    console.log("Dishes")
     console.log(dishesRes)
-    console.log("END")*/
+    console.log("END")
 
     return {
-        props: { foodcategory: foodcategoryRes, dishes: dishesRes.data, restaurant: restaurantsRes.data[0], restaurants: restaurantsRes },
+        props: { foodcategories: foodcategoryRes, dishes: dishesRes.data, restaurant: restaurantsRes.data[0], restaurants: restaurantsRes },
         revalidate: 1,
     };
 }
 
-export default Article;
+export default Menu;
 
