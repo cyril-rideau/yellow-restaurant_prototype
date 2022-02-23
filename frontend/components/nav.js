@@ -1,9 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import Image from "./image";
-import CartPic from "../public/cart.png";
-import NextImage from "next/image";
 import AppContext from "../context/AppContext";
+import {logout} from "../lib/auth";
 
 const Nav = ({ restaurants }) => {
     const { user, setUser } = React.useContext(AppContext);
@@ -44,6 +42,26 @@ const Nav = ({ restaurants }) => {
                                 </Link>
                             </li>
                         )}
+                        { user ? (
+                                <li key="Logout">
+                                    <Link href="/">
+                                        <a
+                                            className="nav-link"
+                                            onClick={() => {
+                                                logout();
+                                                setUser(null);
+                                            }}
+                                        >
+                                            Logout
+                                        </a>
+                                    </Link>
+                                </li>
+                            ) : (
+                                <li>
+
+                                </li>
+                            )
+                        }
                         <li key="Cart">
                             <Link href="/Cart/">
                                 <a className="uk-link-reset"> <img src="cart.png" width="40" height="40"/> </a>
