@@ -34,76 +34,69 @@ function Login(props) {
 
     return (
         <Container>
-            <Row>
-                <Col sm="12" md={{ size: 5, offset: 3 }}>
-                    <div className="paper">
-                        <div className="header">
-                        </div>
-                        <section className="wrapper">
-                            {Object.entries(error).length !== 0 &&
-                                error.constructor === Object &&
-                                error.message.map((error) => {
-                                    return (
-                                        <div
-                                            key={error.messages[0].id}
-                                            style={{ marginBottom: 10 }}
-                                        >
-                                            <small style={{ color: "red" }}>
-                                                {error.messages[0].message}
-                                            </small>
-                                        </div>
-                                    );
-                                })}
-                            <Form>
-                                <fieldset disabled={loading}>
-                                    <FormGroup className="mb-3">
-                                        <Label>Email:</Label>
-                                        <Input
-                                            onChange={(event) => onChange(event)}
-                                            name="identifier"
-                                        />
-                                    </FormGroup>
-                                    <FormGroup className="">
-                                        <Label>Password:</Label>
-                                        <Input
-                                            onChange={(event) => onChange(event)}
-                                            type="password"
-                                            name="password"
-                                        />
-                                    </FormGroup>
+            <div>
+                <section>
+                    {Object.entries(error).length !== 0 &&
+                        error.constructor === Object &&
+                        error.message.map((error) => {
+                            return (
+                                <div
+                                    key={error.messages[0].id}
+                                    style={{ marginBottom: 10 }}
+                                >
+                                    <small style={{ color: "red" }}>
+                                        {error.messages[0].message}
+                                    </small>
+                                </div>
+                            );
+                        })}
+                    <Form className="uk-form-stacked uk-position-center">
+                        <fieldset disabled={loading}>
+                            <FormGroup className="uk-margin">
+                                <Label
+                                    className="uk-form-small uk-form-label uk-position-top-center uk-position-relative uk-label"
+                                >Email:</Label>
+                                <Input
+                                    onChange={(event) => onChange(event)}
+                                    name="identifier"
+                                    className="uk-form-width-large uk-form-small uk-input uk-position-bottom-center uk-position-relative"
+                                />
+                            </FormGroup>
+                            <FormGroup className="uk-margin">
+                                <Label
+                                    className="uk-form-small uk-form-label uk-position-top-center uk-position-relative uk-label"
+                                >Password:</Label>
+                                <Input
+                                    onChange={(event) => onChange(event)}
+                                    type="password"
+                                    name="password"
+                                    className="uk-form-width-large uk-form-small uk-input uk-position-bottom-center uk-position-relative"
+                                />
+                            </FormGroup>
 
-                                    <FormGroup>
-                                        <Button style={{
-                                            backgroundColor: "#008CBA",
-                                            textAlign: "center",
-                                            color: "white",
-                                            border: "none",
-                                            width: "100%",
-                                            padding: "1% 1.5%",
-                                        }}
-                                            onClick={() => {
-                                                setLoading(true);
-                                                login(data.identifier, data.password)
-                                                    .then((res) => {
-                                                        setLoading(false);
-                                                        // set authed User in global context to update header/app state
-                                                        appContext.setUser(res.data.user);
-                                                    })
-                                                    .catch((error) => {
-                                                        setError(error.response.data);
-                                                        setLoading(false);
-                                                    });
-                                            }}
-                                        >
-                                            {loading ? "Loading... " : "Submit"}
-                                        </Button>
-                                    </FormGroup>
-                                </fieldset>
-                            </Form>
-                        </section>
-                    </div>
-                </Col>
-            </Row>
+                            <FormGroup>
+                                <Button className="uk-button uk-button-primary uk-width-1-1"
+                                    onClick={() => {
+                                        setLoading(true);
+                                        login(data.identifier, data.password)
+                                            .then((res) => {
+                                                setLoading(false);
+                                                // set authed User in global context to update header/app state
+                                                appContext.setUser(res.data.user);
+                                            })
+                                            .catch((error) => {
+                                                setError(error.response.data);
+                                                setLoading(false);
+                                            });
+                                    }}
+                                >
+                                    {loading ? "Loading... " : "Submit"}
+                                </Button>
+                            </FormGroup>
+                        </fieldset>
+                    </Form>
+                </section>
+            </div>
         </Container>
     );
 }
