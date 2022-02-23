@@ -6,14 +6,15 @@ import Layout from "../../components/layout";
 
 import { fetchAPI } from "../../lib/api";
 import { getStrapiMedia } from "../../lib/media";
+import restaurants from "../../components/restaurants";
 
-const Article = ({ article, restaurants}) => {
-    const imageUrl = null; //getStrapiMedia(article.attributes.image);
+const Article = ({ foodcategory, dishes, restaurant, restaurants }) => {
+    const imageUrl = getStrapiMedia(restaurant.attributes.picture);
 
     const seo = {
-        metaTitle: article.attributes.title,
-        metaDescription: article.attributes.description,
-        shareImage: article.attributes.image,
+        metaTitle: restaurant.attributes.name,
+        metaDescription: restaurant.attributes.description,
+        shareImage: restaurant.attributes.picture,
         article: true,
     };
 
@@ -26,40 +27,22 @@ const Article = ({ article, restaurants}) => {
                 data-src={imageUrl}
                 data-srcset={imageUrl}
                 data-uk-img
-
             >
-                <h1>{article.attributes.title}</h1>
+                <h1>{restaurant.attributes.name}</h1>
             </div>
             <div className="uk-section">
                 <div className="uk-container uk-container-small">
-                    <ReactMarkdown children={article.attributes.content} />
+                    <ReactMarkdown children={restaurant.attributes.description} />
                     <hr className="uk-divider-small" />
                     <div className="uk-grid-small uk-flex-left" data-uk-grid="true">
                         <div>
-                            {article.attributes.author.data.attributes.picture && (
-                                <img
-                                    src={getStrapiMedia(
-                                        article.attributes.author.data.attributes.picture
-                                    )}
-                                    alt={
-                                        article.attributes.author.data.attributes.picture.data
-                                            .attributes.alternativeText
-                                    }
-                                    style={{
-                                        position: "static",
-                                        borderRadius: "20%",
-                                        height: 60,
-                                    }}
-                                />
-                            )}
                         </div>
                         <div className="uk-width-expand">
                             <p className="uk-margin-remove-bottom">
-                                By {article.attributes.author.data.attributes.name}
                             </p>
                             <p className="uk-text-meta uk-margin-remove-top">
                                 <Moment format="MMM Do YYYY">
-                                    {article.attributes.published_at}
+                                    {restaurant.attributes.published_at}
                                 </Moment>
                             </p>
                         </div>
@@ -71,10 +54,10 @@ const Article = ({ article, restaurants}) => {
 };
 
 export async function getStaticPaths() {
-    const articlesRes = await fetchAPI("/articles", { fields: ["slug"] });
+    const restaurantsRes = await fetchAPI("/restaurants", { fields: ["slug"] });
 
     return {
-        paths: articlesRes.data.map((article) => ({
+        paths: restaurantsRes.data.map((article) => ({
             params: {
                 slug: article.attributes.slug,
             },
@@ -83,20 +66,33 @@ export async function getStaticPaths() {
     };
 }
 
-
 export async function getStaticProps({ params }) {
-    const articlesRes = await fetchAPI("/articles", {
+    const foodcategoryRes = await fetchAPI("/food-categories", {
         filters: {
             slug: params.slug,
         },
-        populate: ["image", "category", "author.picture"],
+        populate: ["dishes", "restaurant"],
     });
-    const categoriesRes = await fetchAPI("/restaurants");
+    const dishesRes = await fetchAPI("/dishes", {
+        filters: {
+            slug: params.slug,
+        },
+        populate: ["picture", "food-category"],
+    });
 
-    console.log(categoriesRes.data)
+    console.log("Restaurant")
+
+    const restaurantsRes = await fetchAPI("/restaurants", {
+        filters: {
+            slug: params.slug,
+        },
+        populate: ["picture"],
+    });
+
+    console.log("End")
 
     return {
-        props: { article: articlesRes.data[0], restaurants: categoriesRes},
+        props: { foodcategory: foodcategoryRes, dishes: dishesRes, restaurant: restaurantsRes.data[0], restaurants: restaurantsRes },
         revalidate: 1,
     };
 }

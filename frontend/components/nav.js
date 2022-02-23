@@ -40,7 +40,7 @@ const Nav = ({ restaurants }) => {
                         </li>
                         <li key="Cart">
                             <Link href="/Cart/">
-                                <a className="uk-link-reset"> <img src="cart.png" width="40" height="40"/> </a>
+                                <a className="uk-link-reset"> <img src="/cart.png" width="40" height="40"/> </a>
                             </Link>
                         </li>
                     </ul>

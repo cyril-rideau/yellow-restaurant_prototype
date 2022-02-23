@@ -15,7 +15,7 @@
     "name": {
       "type": "string"
     },
-    "Slug": {
+    "slug": {
       "type": "uid",
       "targetField": "name"
     },
@@ -32,14 +32,15 @@
       "mappedBy": "restaurant"
     },
     "picture": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     }
   }
 }
