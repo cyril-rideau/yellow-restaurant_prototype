@@ -41,6 +41,12 @@
         "videos",
         "audios"
       ]
+    },
+    "dishes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::dish.dish",
+      "mappedBy": "restaurants"
     }
   }
 }

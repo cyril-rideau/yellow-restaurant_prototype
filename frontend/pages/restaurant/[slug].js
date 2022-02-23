@@ -7,8 +7,10 @@ import Layout from "../../components/layout";
 import { fetchAPI } from "../../lib/api";
 import { getStrapiMedia } from "../../lib/media";
 import restaurants from "../../components/restaurants";
+import Dishes from "../../components/dishes";
+import Restaurants from "/components/restaurants";
 
-const Article = ({ foodcategory, dishes, restaurant, restaurants }) => {
+const Article = ({ foodcategories, dishes, restaurant, restaurants }) => {
     const imageUrl = getStrapiMedia(restaurant.attributes.picture);
 
     const seo = {
@@ -17,6 +19,10 @@ const Article = ({ foodcategory, dishes, restaurant, restaurants }) => {
         shareImage: restaurant.attributes.picture,
         article: true,
     };
+
+    //UIkit
+    //UIkit.nav()
+    //UIkit.nav(element, options);
 
     return (
         <Layout restaurants={restaurants.data}>
@@ -30,22 +36,24 @@ const Article = ({ foodcategory, dishes, restaurant, restaurants }) => {
             >
                 <h1>{restaurant.attributes.name}</h1>
             </div>
+
             <div className="uk-section">
-                <div className="uk-container uk-container-small">
+                <div className="uk-container uk-container-large">
                     <ReactMarkdown children={restaurant.attributes.description} />
-                    <hr className="uk-divider-small" />
-                    <div className="uk-grid-small uk-flex-left" data-uk-grid="true">
+                    <hr className="uk-divider-small"/>
+                    <div /*className="uk-grid-small uk-flex-center" data-uk-grid="true"*/>
                         <div>
+                            <Dishes dishes={dishes} restaurant={restaurant}/>
                         </div>
-                        <div className="uk-width-expand">
-                            <p className="uk-margin-remove-bottom">
-                            </p>
-                            <p className="uk-text-meta uk-margin-remove-top">
-                                <Moment format="MMM Do YYYY">
-                                    {restaurant.attributes.published_at}
-                                </Moment>
-                            </p>
-                        </div>
+                    </div>
+                    <div className="uk-width-expand">
+                        <p className="uk-margin-remove-bottom">
+                        </p>
+                        <p className="uk-text-meta uk-margin-remove-top">
+                            <Moment format="MMM Do YYYY">
+                                {restaurant.attributes.published_at}
+                            </Moment>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -68,33 +76,31 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
     const foodcategoryRes = await fetchAPI("/food-categories", {
-        filters: {
-            slug: params.slug,
-        },
+        filters: {},
         populate: ["dishes", "restaurant"],
     });
     const dishesRes = await fetchAPI("/dishes", {
-        filters: {
-            slug: params.slug,
-        },
-        populate: ["picture", "food-category"],
+        filters: {},
+        populate: ["picture", , "food_category", "restaurants"],
     });
-
-    console.log("Restaurant")
-
     const restaurantsRes = await fetchAPI("/restaurants", {
         filters: {
             slug: params.slug,
         },
-        populate: ["picture"],
+        populate: ["picture", "food_categories"],
     });
 
-    console.log("End")
+    /*console.log(foodcategoryRes)
+    console.log(restaurantsRes)
+
+    console.log(dishesRes)
+    console.log("END")*/
 
     return {
-        props: { foodcategory: foodcategoryRes, dishes: dishesRes, restaurant: restaurantsRes.data[0], restaurants: restaurantsRes },
+        props: { foodcategory: foodcategoryRes, dishes: dishesRes.data, restaurant: restaurantsRes.data[0], restaurants: restaurantsRes },
         revalidate: 1,
     };
 }
 
 export default Article;
+

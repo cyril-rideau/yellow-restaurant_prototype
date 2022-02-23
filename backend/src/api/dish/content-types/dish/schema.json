@@ -4,7 +4,8 @@
   "info": {
     "singularName": "dish",
     "pluralName": "dishes",
-    "displayName": "Dishes"
+    "displayName": "Dishes",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,7 +15,7 @@
     "name": {
       "type": "string"
     },
-    "Slug": {
+    "slug": {
       "type": "uid",
       "targetField": "name"
     },
@@ -25,14 +26,15 @@
       "type": "text"
     },
     "picture": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "available": {
       "type": "boolean"
@@ -41,6 +43,12 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::food-category.food-category",
+      "inversedBy": "dishes"
+    },
+    "restaurants": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::restaurant.restaurant",
       "inversedBy": "dishes"
     }
   }
