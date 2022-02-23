@@ -13,7 +13,7 @@ const Nav = ({ restaurants }) => {
                     <ul className="uk-navbar-nav">
                         <li>
                             <Link href="/">
-                                <a>Strapi Blog</a>
+                                <a>Yellow Restaurant Ordering</a>
                             </Link>
                         </li>
                     </ul>
