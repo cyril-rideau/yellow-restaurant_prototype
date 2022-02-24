@@ -18,12 +18,13 @@ import user from "./user";
 import Cookie from "js-cookie";
 
 const Cart = ({restaurants}) => {
-        const [data, setData] = useState({ identifier: "", password: "", balance:"", total_cart: "" });
+        const [data, setData] = useState({ identifier: "", password: "", balance:"" });
         const [loading, setLoading] = useState(false);
         const router = useRouter();
         const appContext = useContext(AppContext);
         const bal = data.balance;
-        const payment = data.total_cart;
+        const total_s = 0;
+        //const total = getTotal(data.  );
 
     useEffect(() => {
         if (!appContext.isAuthenticated) {
@@ -73,7 +74,7 @@ const Cart = ({restaurants}) => {
                                         Total:
                                     </label>
                                     <div className="uk-text-center">
-                                        {payment}
+                                        {total_s}
                                     </div>
                                 </FormGroup>
                                 <FormGroup className="uk-margin">
@@ -87,9 +88,13 @@ const Cart = ({restaurants}) => {
                                 <FormGroup>
                                     <Button className="uk-button uk-button-primary uk-width-1-1"
                                             onClick={() => {
+                                                if (total_s > bal){
                                                 setLoading(true);;
                                                 router.push("/summary_order")
                                                 setLoading(false);;
+                                                }else{
+                                                    document.write("Your balance is lower than the total. Please reload your account");
+                                                }
                                             }}
                                     >
                                         {loading ? "Loading... " : "Confirm your order"}

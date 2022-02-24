@@ -18,12 +18,12 @@ import user from "./user";
 import Cookie from "js-cookie";
 
 const Cart = ({restaurants}) => {
-    const [data, setData] = useState({ identifier: "", password: "", balance:"", total_cart: "" });
+    const [data, setData] = useState({ identifier: "", password: "", balance:"" });
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const appContext = useContext(AppContext);
     const bal = data.balance;
-    const total = data.total_cart;
+    const total_s = 0;
 
     useEffect(() => {
         setLoading(true)
@@ -70,7 +70,7 @@ const Cart = ({restaurants}) => {
                                         Total:
                                     </label>
                                     <div className="uk-text-center">
-                                        {total}
+                                        {total_s}
                                     </div>
                                 </FormGroup>
                             </fieldset>
