@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "deposits",
+  "info": {
+    "singularName": "deposit",
+    "pluralName": "deposits",
+    "displayName": "deposit"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "amount": {
+      "type": "integer"
+    },
+    "date": {
+      "type": "datetime"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "uid": {
+      "type": "uid"
+    }
+  }
+}
