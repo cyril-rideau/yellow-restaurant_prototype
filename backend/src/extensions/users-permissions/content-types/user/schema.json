@@ -65,6 +65,10 @@
     },
     "balance": {
       "type": "integer"
+    },
+    "total_cart": {
+      "type": "integer",
+      "default": 0
     }
   }
 }

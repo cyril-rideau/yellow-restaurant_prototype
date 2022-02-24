@@ -63,7 +63,7 @@ const Nav = ({ restaurants }) => {
                             )
                         }
                         <li key="Cart">
-                            <Link href="/Cart/">
+                            <Link href="/cart/">
                                 <a className="uk-link-reset"> <img src="cart.png" width="40" height="40"/> </a>
                             </Link>
                         </li>

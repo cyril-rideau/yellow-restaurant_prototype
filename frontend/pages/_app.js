@@ -12,6 +12,7 @@ import AppContext from "../context/AppContext";
 // Store Strapi Global object in context
 export const GlobalContext = createContext({});
 
+
 class MyApp extends App {
     state = {
         user: null,
