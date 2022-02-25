@@ -2,17 +2,16 @@ import React from "react";
 import Link from "next/link";
 import NextImage from "./image";
 
-const RestaurantCard = ({ restaurant }) => {
+const OrderCard = ({ order }) => {
+    console.log(order);
+
     return (
-        <Link href={`/restaurant/${restaurant.attributes.Slug}`}>
+        <Link href={`/order/${order.attributes.uid}`}>
             <a className="uk-link-reset">
                 <div className="uk-card uk-card-muted">
-                    <div className="uk-card-media-top">
-                        <NextImage image={restaurant.attributes.picture} />
-                    </div>
                     <div className="uk-card-body">
                         <p id="title" className="uk-text-large">
-                            {restaurant.attributes.name}
+                            {order.attributes.totalPrice}
                         </p>
                     </div>
                 </div>
@@ -21,4 +20,4 @@ const RestaurantCard = ({ restaurant }) => {
     );
 };
 
-export default RestaurantCard;
+export default OrderCard;

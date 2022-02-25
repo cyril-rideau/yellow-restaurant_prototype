@@ -15,7 +15,7 @@ const Restaurants = ({ restaurants }) => {
                         return (
                             <RestaurantCard
                                 restaurant={restaurant}
-                                key={`article__left__${restaurant.attributes.slug}`}
+                                key={`article__left__${restaurant.attributes.Slug}`}
                             />
                         );
                     })}
@@ -25,7 +25,7 @@ const Restaurants = ({ restaurants }) => {
                             return (
                                 <RestaurantCard
                                     restaurant={restaurant}
-                                    key={`article__left__${restaurant.attributes.slug}`}
+                                    key={`article__left__${restaurant.attributes.Slug}`}
                                 />
                             );
                         })}

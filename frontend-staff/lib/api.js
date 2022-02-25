@@ -46,33 +46,3 @@ export async function fetchAPI(path, urlParamsObject = {}, options = {}) {
     const data = await response.json();
     return data;
 }
-
-export async function fetchAPIAuth(path, urlParamsObject = {}, options = {}, jwtToken) {
-    // Merge default and user options
-    const mergedOptions = {
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + jwtToken,
-        },
-        ...options,
-    };
-
-    // Build request URL
-    const queryString = qs.stringify(urlParamsObject, {
-        encodeValuesOnly: true,
-    });
-    const requestUrl = `${getStrapiURL(
-        `/api${path}${queryString ? `?${queryString}` : ""}`
-    )}`;
-
-    // Trigger API call
-    const response = await fetch(requestUrl, mergedOptions);
-
-    // Handle response
-    if (!response.ok) {
-        console.error(response.statusText);
-        throw new Error(`An error occured please try again`);
-    }
-    const data = await response.json();
-    return data;
-}
