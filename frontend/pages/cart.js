@@ -12,19 +12,25 @@ import {
 } from "reactstrap";
 import { login } from "../lib/auth";
 import AppContext from "../context/AppContext";
+
 import Layout from "../components/layout";
 import {fetchAPI} from "../lib/api";
 import user from "./user";
 import Cookie from "js-cookie";
+import {displayContent} from "next/dist/client/dev/fouc";
+
+
 
 const Cart = ({restaurants}) => {
-        const [data, setData] = useState({ identifier: "", password: "", balance:"" });
-        const [loading, setLoading] = useState(false);
-        const router = useRouter();
-        const appContext = useContext(AppContext);
-        const bal = data.balance;
-        const total_s = 0;
-        //const total = getTotal(data.  );
+    const [data, setData] = useState({ identifier: "", password: "", balance:"" });
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+    const appContext = useContext(AppContext);
+    const bal = data.balance;
+    const total_s = 0;
+    //const total = getTotal(data.  );
+
+
 
     useEffect(() => {
         if (!appContext.isAuthenticated) {
@@ -78,22 +84,29 @@ const Cart = ({restaurants}) => {
                                     </div>
                                 </FormGroup>
                                 <FormGroup className="uk-margin">
-                                        <label className="uk-label uk-position-relative uk-position-center">
-                                            Current account Balance:
-                                        </label>
-                                        <div className="uk-text-center">
-                                            {bal}
-                                        </div>
+                                    <label className="uk-label uk-position-relative uk-position-center">
+                                        Current account Balance:
+                                    </label>
+                                    <div className="uk-text-center">
+                                        {bal}
+                                    </div>
                                 </FormGroup>
                                 <FormGroup>
                                     <Button className="uk-button uk-button-primary uk-width-1-1"
                                             onClick={() => {
-                                                if (total_s > bal){
-                                                setLoading(true);;
-                                                router.push("/summary_order")
-                                                setLoading(false);;
+                                                if (total_s < bal){
+                                                    setLoading(true);;
+                                                    router.push("/summary_order")
+                                                    setLoading(false);;
                                                 }else{
-                                                    document.write("Your balance is lower than the total. Please reload your account");
+                                                    //UIkit.util.on('#js-modal-alert', 'click', function (e) {
+                                                    //e.preventDefault();
+                                                    // e.target.blur();
+                                                    UIkit.modal.alert('Your balance is too low!').then(function () {
+                                                        console.log('Alert closed.')
+                                                    });
+                                                    //});
+
                                                 }
                                             }}
                                     >
