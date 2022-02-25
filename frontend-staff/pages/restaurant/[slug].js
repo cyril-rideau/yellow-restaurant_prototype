@@ -8,7 +8,6 @@ import AppContext from "../../context/AppContext";
 import Layout from "../../components/layout";
 import {fetchAPI, fetchAPIAuth} from "../../lib/api";
 import Cookie from "js-cookie";
-import Order from "../../components/order";
 import OrderList from "../../components/orders";
 import qs from "qs";
 
@@ -32,7 +31,7 @@ const Orders = ({restaurants, slug}) => {
         setToken(Cookie.get("token"));
 
         const params = qs.stringify({
-            populate: ["user", "restaurant", "dishes"],
+            populate: ["user", "restaurant", "dishes", "dishes.dish"],
         }, {
             encodeValuesOnly: true,
         })
@@ -44,10 +43,22 @@ const Orders = ({restaurants, slug}) => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
                 setData(data);
                 setLoading(false);
             });
+
+        const interval = setInterval(() => {
+            fetch("http://localhost:1337/api/orders?" + params, {
+                headers: {
+                    "Authorization": "Bearer " + Cookie.get("token")
+                }
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    setData(data);
+                    setLoading(false);
+                });
+        }, 1000);
     }, [])
 
     if (isLoading) return <p>Loading...</p>
