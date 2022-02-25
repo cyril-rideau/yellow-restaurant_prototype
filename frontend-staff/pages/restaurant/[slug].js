@@ -12,7 +12,7 @@ import Order from "../../components/order";
 import OrderList from "../../components/orders";
 import qs from "qs";
 
-const Orders = ({restaurants}) => {
+const Orders = ({restaurants, slug}) => {
     const appContext = useContext(AppContext);
     const router = useRouter();
     const [data, setData] = useState(null)
@@ -31,7 +31,9 @@ const Orders = ({restaurants}) => {
 
         setToken(Cookie.get("token"));
 
-        const params = qs.stringify({ populate: ["user", "dishes", "restaurant"] }, {
+        const params = qs.stringify({
+            populate: ["user", "restaurant", "dishes"],
+        }, {
             encodeValuesOnly: true,
         })
 
@@ -42,6 +44,7 @@ const Orders = ({restaurants}) => {
         })
             .then((res) => res.json())
             .then((data) => {
+                console.log(data);
                 setData(data);
                 setLoading(false);
             });
@@ -51,12 +54,10 @@ const Orders = ({restaurants}) => {
     if (!data) return <p>No orders</p>
     if (auth) {appContext.isAuthenticated = true}
 
-    console.log(data);
-
     return (
         <Layout restaurants={restaurants.data}>
             <Container>
-                <OrderList orders={data.data}>
+                <OrderList orders={data.data} slug={slug}>
                 </OrderList>
             </Container>
         </Layout>
@@ -80,7 +81,7 @@ export async function getStaticProps({ params }) {
     const restaurantRes = await fetchAPI("/restaurants");
 
     return {
-        props: { restaurants: restaurantRes },
+        props: { restaurants: restaurantRes, slug: params.slug },
         revalidate: 1,
     };
 }

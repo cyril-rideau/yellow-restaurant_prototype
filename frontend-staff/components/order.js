@@ -1,22 +1,32 @@
-import React from "react";
-import Link from "next/link";
-import NextImage from "./image";
+import React, {useState} from "react";
+import { DatePicker, message } from 'antd';
+import 'antd/dist/antd.css';
 
 const OrderCard = ({ order }) => {
-    console.log(order);
 
     return (
-        <Link href={`/order/${order.attributes.uid}`}>
-            <a className="uk-link-reset">
-                <div className="uk-card uk-card-muted">
-                    <div className="uk-card-body">
-                        <p id="title" className="uk-text-large">
-                            {order.attributes.totalPrice}
-                        </p>
-                    </div>
+        <a className="uk-link-reset">
+            <div className="uk-card uk-card-muted">
+                <div className="uk-card-body">
+                    <p id="title" className="uk-text-large">
+                        {order.id}|{order.attributes.totalPrice}|
+                        {order.attributes.restaurant.data.attributes.name}|
+                        {order.attributes.user.data.attributes.username}|
+                        {order.attributes.done}
+                    </p>
                 </div>
-            </a>
-        </Link>
+                <ul>
+                    {order.attributes.dishes.data.map((dish) => {
+                        return (
+                            <li>
+                                <a>{dish.attributes.name}</a>
+                            </li>
+                        )
+                    }
+                    )}
+                </ul>
+            </div>
+        </a>
     );
 };
 

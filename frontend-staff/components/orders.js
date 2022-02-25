@@ -2,12 +2,16 @@ import React from "react";
 import OrderCard from "./order";
 import RestaurantCard from "./restaurantcard";
 
-const OrderList = ({ orders }) => {
+const OrderList = ({ orders, slug }) => {
     return (
     <div>
-        <div className="uk-child-width-1-2@s" data-uk-grid="true">
+        <div data-uk-grid="true">
             <div>
                 {orders.map((order, i) => {
+                    if (slug != order.attributes.restaurant.data.attributes.Slug)
+                    {
+                        return null;
+                    }
                     return (
                         <OrderCard
                             order={order}
