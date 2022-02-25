@@ -1,11 +1,36 @@
 import React from "react";
 import Link from "next/link";
 import NextImage from "./image";
+import { Card } from 'antd';
+import Image from "next/image";
 
-const Card = ({ article }) => {
+const { Meta } = Card;
+
+const ArticleCard = ({ article }) => {
     return (
         <Link href={`/article/${article.attributes.slug}`}>
-            <a className="uk-link-reset">
+            <Card
+                style={{textAlign: 'center'}}
+                hoverable
+                size='small'
+
+                cover={<NextImage image={article.attributes.image}/>}
+            >
+                <div className="center">
+                    <Meta
+                        title={article.attributes.title}
+                    />
+                </div>
+            </Card>
+
+        </Link>
+    );
+};
+
+export default ArticleCard;
+
+/*
+* <a className="uk-link-reset">
                 <div className="uk-card uk-card-muted">
                     <div className="uk-card-media-top">
                         <NextImage image={article.attributes.image} />
@@ -20,8 +45,6 @@ const Card = ({ article }) => {
                     </div>
                 </div>
             </a>
-        </Link>
-    );
-};
-
-export default Card;
+            *
+            * cover={<NextImage image={article.attributes.image} width="700" height="550"/>}
+* */

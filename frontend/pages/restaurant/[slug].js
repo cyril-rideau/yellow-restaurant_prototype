@@ -7,13 +7,10 @@ import Layout from "../../components/layout";
 import { fetchAPI } from "../../lib/api";
 import { getStrapiMedia } from "../../lib/media";
 import restaurants from "../../components/restaurants";
-import Dishes from "../../components/dishes";
-import Restaurants from "/components/restaurants";
 import MenuCategory from "../../components/menu";
+import React from "react";
 
 const Menu = ({ foodcategories, dishes, restaurant, restaurants }) => {
-    console.log("ARTICLE")
-    console.log(restaurants)
     const imageUrl = getStrapiMedia(restaurant.attributes.picture);
 
     const seo = {
@@ -88,14 +85,6 @@ export async function getStaticProps({ params }) {
         },
         populate: ["picture", "food_categories"],
     });
-
-    console.log(foodcategoryRes)
-    console.log("Restaurant")
-    console.log(restaurantsRes)
-
-    console.log("Dishes")
-    console.log(dishesRes)
-    console.log("END")
 
     return {
         props: { foodcategories: foodcategoryRes, dishes: dishesRes.data, restaurant: restaurantsRes.data[0], restaurants: restaurantsRes },

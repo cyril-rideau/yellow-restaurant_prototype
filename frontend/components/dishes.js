@@ -4,7 +4,7 @@ import NextImage from "./image";
 import Dishecard from "./dishecard";
 
 const Dishes = ({ foodcategory, dishes, restaurant }) => {
-    console.log("DISHES")
+    //console.log("DISHES")
 
     const leftDishesCount = Math.ceil(dishes.length / 2);
     const leftDishes = dishes.slice(0, leftDishesCount);
@@ -15,15 +15,17 @@ const Dishes = ({ foodcategory, dishes, restaurant }) => {
     return (
             <li className="uk-parent">
             <a> {foodcategory.attributes.name} </a>
-            <ul className="uk-nav-sub">
-                {dishes.map((dishe, i) => {
-                    return (
-                        <Dishecard
-                            dishe={dishe}
-                            key={`article__left__${dishe.attributes.slug}`}
-                        />
-                    );
-                })}
+            <ul className="uk-nav-sub uk-grid-large uk-text-center uk-grid-row-medium">
+                <div className="uk-child-width-expand@s uk-text-center uk-grid uk-grid-gap-medium">
+                    {dishes.map((dishe, i) => {
+                        return (
+                            <Dishecard
+                                dishe={dishe}
+                                key={`article__left__${dishe.attributes.slug}`}
+                            />
+                        );
+                    })}
+                </div>
             </ul>
             </li>
     );
