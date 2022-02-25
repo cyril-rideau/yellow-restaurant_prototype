@@ -47,6 +47,16 @@
       "relation": "manyToMany",
       "target": "api::dish.dish",
       "mappedBy": "restaurants"
+    },
+    "Openning": {
+      "type": "datetime",
+      "default": "2022-02-01T07:00:00.000Z",
+      "required": true
+    },
+    "Closing": {
+      "type": "datetime",
+      "required": true,
+      "default": "2022-02-01T14:00:00.000Z"
     }
   }
 }
