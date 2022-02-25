@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_dishes_dishes",
+  "info": {
+    "displayName": "dish",
+    "icon": "apple-alt"
+  },
+  "options": {},
+  "attributes": {
+    "dish": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::dish.dish"
+    },
+    "quantity": {
+      "type": "integer"
+    }
+  }
+}

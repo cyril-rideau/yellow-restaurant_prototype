@@ -12,11 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "dishes": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::dish.dish"
-    },
     "time": {
       "type": "datetime"
     },
@@ -37,7 +32,16 @@
       "target": "api::restaurant.restaurant"
     },
     "done": {
-      "type": "boolean"
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "dishes": {
+      "displayName": "dish",
+      "type": "component",
+      "repeatable": true,
+      "component": "dishes.dish",
+      "required": true
     }
   }
 }
